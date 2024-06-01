@@ -1,7 +1,11 @@
-﻿namespace LocalTrendsTooter;
+﻿using Newtonsoft.Json;
+
+namespace LocalTrendsTooter;
 
 internal class Settings
 {
+    private const string SettingsFileName = "settings.json";
+
     public int HistoryHours { get; set; } = 1;
     public List<string> InstancesToTrend { get; set; } = [];
     public string PostInstance { get; set; } = string.Empty;
@@ -10,7 +14,12 @@ internal class Settings
 
     public static Settings Load()
     {
-        throw new NotImplementedException();
+        if (!File.Exists(SettingsFileName))
+            return new Settings();
+
+        var text = File.ReadAllText(SettingsFileName);
+        return JsonConvert.DeserializeObject<Settings>(text) ??
+               throw new ApplicationException($"Your '{SettingsFileName}' appears to be empty or corrupt.");
     }
 
     public void SetValueFromArguments(string name, string value)
