@@ -19,20 +19,22 @@ internal class Program
             var oldestDateUtc = DateTime.UtcNow.AddHours(historyHours * -1);
             var mastodonGetter = new MastodonGetter();
             var instancesToTrend = settings.InstancesToTrend;
-            var posts = new List<MastodonPost>();
-            instancesToTrend.ForEach(instance =>
+            var allPosts = new List<MastodonPost>();
+            foreach (var instance in instancesToTrend)
             {
                 try
                 {
-                    posts.AddRange(mastodonGetter.GetPostsWithHashtags(instance, oldestDateUtc));
+                    var posts = await mastodonGetter.GetPostsWithHashtags(instance, oldestDateUtc);
+                    allPosts.AddRange(posts);
                 }
                 catch (Exception ex)
                 {
                     var message = $"Error fetching from {instance}:\r\n{ex}";
                     ReportError(mastodonPoster, settings, message);
                 }
-            });
-            if (!posts.Any() && !string.IsNullOrEmpty(settings.DmAccountName))
+            }
+
+            if (!allPosts.Any() && !string.IsNullOrEmpty(settings.DmAccountName))
             {
                 mastodonPoster.PostDirect(settings.PostInstance, settings.PostInstanceToken,
                     $"{settings.DmAccountName} No recent posts found. Sent DM to {settings.DmAccountName}");
@@ -40,7 +42,7 @@ internal class Program
             }
 
             var trendsBuilder = new TrendsBuilder();
-            var trends = trendsBuilder.BuildTrends(posts);
+            var trends = trendsBuilder.BuildTrends(allPosts);
             var tootTextBuilder = new TootTextBuilder();
             var tootText = tootTextBuilder.Build(trends);
             mastodonPoster.PostPublic(settings.PostInstance, settings.PostInstanceToken, tootText);
