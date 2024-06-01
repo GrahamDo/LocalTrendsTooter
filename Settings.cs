@@ -24,11 +24,43 @@ internal class Settings
 
     public void SetValueFromArguments(string name, string value)
     {
-        throw new NotImplementedException();
+        switch (name.ToLower())
+        {
+            case "historyhours":
+                HistoryHours = TryConvertInt(value);
+                break;
+            case "instancestotrend":
+                var instances = value.Split(',');
+                var instancesList = new List<string>();
+                foreach (var currencyCode in instances)
+                    instancesList.Add(currencyCode);
+                InstancesToTrend = instancesList;
+                break;
+            case "postinstance":
+                PostInstance = value;
+                break;
+            case "postinstancetoken":
+                PostInstanceToken = value;
+                break;
+            case "dmaccountname":
+                DmAccountName = value;
+                break;
+            default:
+                throw new ApplicationException($"Invalid setting: {name}");
+        }
+    }
+
+    private int TryConvertInt(string value)
+    {
+        var isInt = int.TryParse(value, out var result);
+        if (!isInt)
+            throw new ApplicationException($"Invalid argument: {value}");
+        return result;
     }
 
     public void Save()
     {
-        throw new NotImplementedException();
+        var serialised = JsonConvert.SerializeObject(this, Formatting.Indented);
+        File.WriteAllText(SettingsFileName, serialised);
     }
 }

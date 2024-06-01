@@ -45,6 +45,10 @@ internal class Program
             var tootText = tootTextBuilder.Build(trends);
             mastodonPoster.PostPublic(settings.PostInstance, settings.PostInstanceToken, tootText);
         }
+        catch (ApplicationException ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
         catch (Exception ex)
         {
             ReportError(mastodonPoster, settings, ex.ToString());
