@@ -12,4 +12,10 @@
     <PackageReference Include="RestSharp" Version="111.2.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="toot-template.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

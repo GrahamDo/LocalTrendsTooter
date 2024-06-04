@@ -44,8 +44,8 @@ internal class Program
             var trendsBuilder = new TrendsBuilder();
             var trends = trendsBuilder.BuildTrends(allPosts);
             var tootTextBuilder = new TootTextBuilder();
-            var tootText = tootTextBuilder.Build(trends);
-            mastodonPoster.PostPublic(settings.PostInstance, settings.PostInstanceToken, tootText);
+            var tootText = tootTextBuilder.Build(trends, settings.Top);
+            await mastodonPoster.PostPublic(settings.PostInstance, settings.PostInstanceToken, tootText);
         }
         catch (ApplicationException ex)
         {

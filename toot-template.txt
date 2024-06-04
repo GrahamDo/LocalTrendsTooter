@@ -1,0 +1,3 @@
+﻿The following hashtags are trending:
+
+{trends}

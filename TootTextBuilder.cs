@@ -1,9 +1,33 @@
-﻿namespace LocalTrendsTooter;
+﻿using System.Text;
+
+namespace LocalTrendsTooter;
 
 internal class TootTextBuilder
 {
-    public string Build(List<Trend> trends)
+    private const string TemplateFileName = "toot-template.txt";
+
+    public string Build(List<Trend> trends, int top)
     {
-        throw new NotImplementedException();
+        var templateText = LoadFromFile();
+        var trendsText = GetTrendsText(trends, top);
+        return templateText.Replace("{trends}", trendsText);
+    }
+
+    private static string GetTrendsText(List<Trend> trends, int top)
+    {
+        var results = new StringBuilder(top);
+        foreach (var trend in trends.Take(top))
+            results.AppendLine($"#{trend.HashTag}");
+
+        return results.ToString();
+    }
+
+    private string LoadFromFile()
+    {
+        if (!File.Exists(TemplateFileName))
+            throw new ApplicationException($"{TemplateFileName} not found");
+
+        var text = File.ReadAllText(TemplateFileName);
+        return text;
     }
 }
