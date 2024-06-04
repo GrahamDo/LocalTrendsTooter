@@ -22,7 +22,7 @@ internal class TootTextBuilder
         return results.ToString();
     }
 
-    private string LoadFromFile()
+    private static string LoadFromFile()
     {
         if (!File.Exists(TemplateFileName))
             throw new ApplicationException($"{TemplateFileName} not found");

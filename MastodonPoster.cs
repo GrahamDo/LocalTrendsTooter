@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Net;
 using RestSharp;
-using Newtonsoft.Json.Linq;
 using RestSharp.Authenticators.OAuth2;
 
 namespace LocalTrendsTooter;
@@ -48,7 +47,7 @@ internal class MastodonPoster(MaxCharactersCacheManager maxCharactersCacheManage
     }
 
     private static string ShortenText(string message, int characterLimit)
-        => message.Length <= characterLimit ? message : message.Substring(0, characterLimit);
+        => message.Length <= characterLimit ? message : message[..characterLimit];
 
     private async Task<int> GetTootCharacterLimit(RestClient client)
     {

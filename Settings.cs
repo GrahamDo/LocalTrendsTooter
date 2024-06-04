@@ -54,7 +54,7 @@ internal class Settings
         }
     }
 
-    private int TryConvertInt(string value)
+    private static int TryConvertInt(string value)
     {
         var isInt = int.TryParse(value, out var result);
         if (!isInt)

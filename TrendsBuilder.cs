@@ -31,5 +31,5 @@ internal class TrendsBuilder
         return results.OrderByDescending(t => t.Rank).ThenByDescending(t => t.LastUsed).ToList();
     }
 
-    private uint CalculateRank(MastodonPost post) => 1 + post.Favourites + (2 * post.Boosts) + (2 * post.Favourites);
+    private static uint CalculateRank(MastodonPost post) => 1 + post.Favourites + (2 * post.Boosts) + (2 * post.Favourites);
 }

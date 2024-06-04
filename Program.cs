@@ -30,7 +30,7 @@ internal class Program
                 catch (Exception ex)
                 {
                     var message = $"Error fetching from {instance}:\r\n{ex}";
-                    ReportError(mastodonPoster, settings, message);
+                    await ReportError(mastodonPoster, settings, message);
                 }
             }
 
@@ -53,27 +53,26 @@ internal class Program
         }
         catch (Exception ex)
         {
-            ReportError(mastodonPoster, settings, ex.ToString());
+            await ReportError(mastodonPoster, settings, ex.ToString());
         }
     }
 
-    private static void ReportError(MastodonPoster mastodonPoster, Settings settings, string message)
+    private static async Task ReportError(MastodonPoster mastodonPoster, Settings settings, string message)
     {
         Console.WriteLine(message);
-
-        if (!string.IsNullOrEmpty(settings.DmAccountName))
+        if (string.IsNullOrEmpty(settings.DmAccountName)) 
+            return;
+        
+        try
         {
-            try
-            {
-                mastodonPoster.PostDirect(settings.PostInstance, settings.PostInstanceToken,
-                    $"{settings.DmAccountName} {message}");
-                Console.WriteLine($"Sent DM to {settings.DmAccountName}");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine();
-                Console.WriteLine($"Failed to send DM to {settings.DmAccountName}\r\n{ex}");
-            }
+            await mastodonPoster.PostDirect(settings.PostInstance, settings.PostInstanceToken,
+                $"{settings.DmAccountName} {message}");
+            Console.WriteLine($"Sent DM to {settings.DmAccountName}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine();
+            Console.WriteLine($"Failed to send DM to {settings.DmAccountName}\r\n{ex}");
         }
     }
 }

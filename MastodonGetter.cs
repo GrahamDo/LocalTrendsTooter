@@ -20,12 +20,11 @@ internal class MastodonGetter
                 url += $"&max_id={maxId}";
 
             var response = await client.GetStringAsync(url);
-            var posts = JsonConvert.DeserializeObject<List<MastodonPost>>(response);
-            if (posts == null)
+            var posts = JsonConvert.DeserializeObject<List<MastodonPost>>(response) ??
                 throw new InvalidOperationException($"Failed to retrieve posts from {instanceUrl}");
 
             posts.RemoveAll(post => post.CreatedAt < oldestDateUtc);
-            done = posts.Count < pageSize || posts.Count == 0;
+            done = posts.Count is < pageSize or 0;
             maxId = posts[^1].Id;
 
             posts.RemoveAll(post => post.Tags.Count == 0);

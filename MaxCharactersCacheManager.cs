@@ -3,7 +3,7 @@
 internal class MaxCharactersCacheManager
 {
     private const string CacheFileName = "max-characters";
-    private int _cachedValue = 0;
+    private int _cachedValue;
 
     public int GetMaxCharacters()
     {
@@ -37,5 +37,4 @@ internal class MaxCharactersCacheManager
         if (File.Exists(CacheFileName))
             File.Delete(CacheFileName);
     }
-
 }
