@@ -46,6 +46,9 @@ internal class Settings
             case "dmaccountname":
                 DmAccountName = value;
                 break;
+            case "top":
+                Top = TryConvertInt(value);
+                break;
             default:
                 throw new ApplicationException($"Invalid setting: {name}");
         }
