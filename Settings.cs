@@ -8,6 +8,7 @@ internal class Settings
 
     public int HistoryHours { get; set; } = 1;
     public List<string> InstancesToTrend { get; set; } = [];
+    public string ExcludeAccountUrl { get; set; }
     public string PostInstance { get; set; } = string.Empty;
     public string PostInstanceToken { get; set; } = string.Empty;
     public string DmAccountName { get; set; } = string.Empty;
@@ -36,6 +37,9 @@ internal class Settings
                 foreach (var currencyCode in instances)
                     instancesList.Add(currencyCode);
                 InstancesToTrend = instancesList;
+                break;
+            case "excludeaccounturl":
+                ExcludeAccountUrl = value;
                 break;
             case "postinstance":
                 PostInstance = value;

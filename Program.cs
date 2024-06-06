@@ -34,6 +34,7 @@ internal class Program
                 }
             }
 
+            allPosts.RemoveAll(post => post.Account.Url == settings.ExcludeAccountUrl);
             if (!allPosts.Any() && !string.IsNullOrEmpty(settings.DmAccountName))
             {
                 await mastodonPoster.PostDirect(settings.PostInstance, settings.PostInstanceToken,
