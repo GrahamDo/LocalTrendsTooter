@@ -46,7 +46,16 @@ internal class Program
             var trends = trendsBuilder.BuildTrends(allPosts);
             var tootTextBuilder = new TootTextBuilder();
             var tootText = tootTextBuilder.Build(trends, settings.Top);
-            await mastodonPoster.PostPublic(settings.PostInstance, settings.PostInstanceToken, tootText);
+
+            if (args.Length == 1 && args[0].ToLower() == "--fake")
+            {
+                Console.WriteLine("Not posting to Mastodon. --fake detected.");
+                Console.WriteLine("The following WOULD be posted:");
+                Console.WriteLine();
+                Console.WriteLine(tootText);
+            }
+            else
+                await mastodonPoster.PostPublic(settings.PostInstance, settings.PostInstanceToken, tootText);
         }
         catch (ApplicationException ex)
         {
