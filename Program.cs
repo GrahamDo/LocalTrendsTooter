@@ -38,7 +38,7 @@ internal class Program
             if (!allPosts.Any() && !string.IsNullOrEmpty(settings.DmAccountName))
             {
                 await mastodonPoster.PostDirect(settings.PostInstance, settings.PostInstanceToken,
-                    $"{settings.DmAccountName} No recent posts found. Sent DM to {settings.DmAccountName}");
+                    $"{settings.DmAccountName} No recent posts found.");
                 return;
             }
 
