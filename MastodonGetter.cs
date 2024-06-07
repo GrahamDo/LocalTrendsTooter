@@ -25,10 +25,8 @@ internal class MastodonGetter
 
             posts.RemoveAll(post => post.CreatedAt < oldestDateUtc);
             done = posts.Count < pageSize;
-            if (done) 
-                continue;
-        
-            maxId = posts[^1].Id;
+            if (!done)
+                maxId = posts[^1].Id;
 
             posts.RemoveAll(post => post.Tags.Count == 0);
             allPosts.AddRange(posts);
