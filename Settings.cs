@@ -8,7 +8,7 @@ internal class Settings
 
     public int HistoryHours { get; set; } = 1;
     public List<string> InstancesToTrend { get; set; } = [];
-    public string ExcludeAccountUrl { get; set; }
+    public string ExcludeAccountUrl { get; set; } = string.Empty;
     public bool ExcludeBots { get; set; }
     public string PostInstance { get; set; } = string.Empty;
     public string PostInstanceToken { get; set; } = string.Empty;
