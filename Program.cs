@@ -35,6 +35,9 @@ internal class Program
             }
 
             allPosts.RemoveAll(post => string.Equals(post.Account.Url, settings.ExcludeAccountUrl, StringComparison.CurrentCultureIgnoreCase));
+            if (settings.ExcludeBots)
+                allPosts.RemoveAll(post => post.Account.Bot);
+            
             if (!allPosts.Any() && !string.IsNullOrEmpty(settings.DmAccountName))
             {
                 await mastodonPoster.PostDirect(settings.PostInstance, settings.PostInstanceToken,

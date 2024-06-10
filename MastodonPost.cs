@@ -20,4 +20,5 @@ internal class MastodonPost
 internal class Account
 {
     public string Url { get; set; }
+    public bool Bot { get; set; }
 }
