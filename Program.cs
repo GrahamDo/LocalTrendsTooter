@@ -34,7 +34,9 @@ internal class Program
                 }
             }
 
-            allPosts.RemoveAll(post => string.Equals(post.Account.Url, settings.ExcludeAccountUrl, StringComparison.CurrentCultureIgnoreCase));
+            if (!string.IsNullOrEmpty(settings.ExcludeAccountUrl))
+                allPosts.RemoveAll(post => string.Equals(post.Account.Url, settings.ExcludeAccountUrl,
+                    StringComparison.CurrentCultureIgnoreCase));
             if (settings.ExcludeBots)
                 allPosts.RemoveAll(post => post.Account.Bot);
             
