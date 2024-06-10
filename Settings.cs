@@ -42,6 +42,9 @@ internal class Settings
             case "excludeaccounturl":
                 ExcludeAccountUrl = value;
                 break;
+            case "excludebots":
+                ExcludeBots = TryConvertBool(value);
+                break;
             case "postinstance":
                 PostInstance = value;
                 break;
@@ -57,6 +60,14 @@ internal class Settings
             default:
                 throw new ApplicationException($"Invalid setting: {name}");
         }
+    }
+
+    private static bool TryConvertBool(string value)
+    {
+        var isBool = bool.TryParse(value, out var result);
+        if (!isBool)
+            throw new ApplicationException($"Invalid argument: {value}");
+        return result;
     }
 
     private static int TryConvertInt(string value)
