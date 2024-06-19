@@ -1,4 +1,6 @@
-﻿namespace LocalTrendsTooter;
+﻿using System.Diagnostics;
+
+namespace LocalTrendsTooter;
 internal class Program
 {
     private static async Task Main(string[] args)
@@ -39,8 +41,9 @@ internal class Program
                     StringComparison.CurrentCultureIgnoreCase));
             if (settings.ExcludeBots)
                 allPosts.RemoveAll(post => post.Account.Bot);
-            
-            if (settings.NotifyNoPostsFound && !allPosts.Any() && !string.IsNullOrEmpty(settings.DmAccountName))
+
+            Debug.Assert(allPosts != null, nameof(allPosts) + " != null");
+            if (settings.NotifyNoPostsFound && allPosts.Count == 0 && !string.IsNullOrEmpty(settings.DmAccountName))
             {
                 await mastodonPoster.PostDirect(settings.PostInstance, settings.PostInstanceToken,
                     $"{settings.DmAccountName} No recent posts found.");
