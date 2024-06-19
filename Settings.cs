@@ -55,6 +55,9 @@ internal class Settings
             case "dmaccountname":
                 DmAccountName = value;
                 break;
+            case "notifynopostsfound":
+                NotifyNoPostsFound = TryConvertBool(value);
+                break;
             case "top":
                 Top = TryConvertInt(value);
                 break;
