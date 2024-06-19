@@ -13,6 +13,7 @@ internal class Settings
     public string PostInstance { get; set; } = string.Empty;
     public string PostInstanceToken { get; set; } = string.Empty;
     public string DmAccountName { get; set; } = string.Empty;
+    public bool NotifyNoPostsFound { get; set; }
     public int Top { get; set; } = 10;
 
     public static Settings Load()

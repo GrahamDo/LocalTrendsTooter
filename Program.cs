@@ -40,7 +40,7 @@ internal class Program
             if (settings.ExcludeBots)
                 allPosts.RemoveAll(post => post.Account.Bot);
             
-            if (!allPosts.Any() && !string.IsNullOrEmpty(settings.DmAccountName))
+            if (settings.NotifyNoPostsFound && !allPosts.Any() && !string.IsNullOrEmpty(settings.DmAccountName))
             {
                 await mastodonPoster.PostDirect(settings.PostInstance, settings.PostInstanceToken,
                     $"{settings.DmAccountName} No recent posts found.");
