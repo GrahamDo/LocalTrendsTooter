@@ -6,7 +6,7 @@ internal class MastodonPost
 {
     [JsonProperty("created_at")]
     public DateTime CreatedAt { get; set; }
-    public Account Account { get; set; }
+    public required Account Account { get; set; }
     public List<MastodonTag> Tags { get; set; } = [];
     public string Id { get; set; } = string.Empty;
     [JsonProperty("reblogs_count")]
@@ -19,6 +19,6 @@ internal class MastodonPost
 
 internal class Account
 {
-    public string Url { get; set; }
+    public required string Url { get; set; }
     public bool Bot { get; set; }
 }
