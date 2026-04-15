@@ -52,7 +52,7 @@ internal class Program
             }
 
             var trendsBuilder = new TrendsBuilder();
-            var trends = trendsBuilder.BuildTrends(allPosts);
+            var trends = trendsBuilder.BuildTrends(allPosts, settings.MaxTagsPerPost);
             var tootTextBuilder = new TootTextBuilder();
             var tootText = tootTextBuilder.Build(trends, settings.Top);
 
