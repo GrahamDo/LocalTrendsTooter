@@ -15,6 +15,7 @@ internal class Settings
     public string DmAccountName { get; set; } = string.Empty;
     public bool NotifyNoPostsFound { get; set; }
     public int Top { get; set; } = 10;
+    public int MaxTagsPerPost { get; set; } = 3;
 
     public static Settings Load()
     {
@@ -60,6 +61,9 @@ internal class Settings
                 break;
             case "top":
                 Top = TryConvertInt(value);
+                break;
+            case "maxtagsperpost":
+                MaxTagsPerPost = TryConvertInt(value);
                 break;
             default:
                 throw new ApplicationException($"Invalid setting: {name}");
