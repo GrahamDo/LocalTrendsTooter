@@ -4,11 +4,12 @@ namespace LocalTrendsTooter;
 
 internal class MastodonGetter
 {
+    private static readonly HttpClient Client = new();
+
     public async Task<IEnumerable<MastodonPost>> GetPostsWithHashtags(string instanceUrl, DateTime oldestDateUtc)
     {
         const int pageSize = 40;
         var allPosts = new List<MastodonPost>();
-        var client = new HttpClient();
         var apiUrl = $"{instanceUrl}/api/v1/timelines/public?local=true&with_replies=true&limit={pageSize}";
 
         var maxId = string.Empty;
@@ -19,7 +20,7 @@ internal class MastodonGetter
             if (maxId != string.Empty)
                 url += $"&max_id={maxId}";
 
-            var response = await client.GetStringAsync(url);
+            var response = await Client.GetStringAsync(url);
             var posts = JsonConvert.DeserializeObject<List<MastodonPost>>(response) ??
                 throw new InvalidOperationException($"Failed to retrieve posts from {instanceUrl}");
 
