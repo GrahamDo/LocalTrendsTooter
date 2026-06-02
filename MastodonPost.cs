@@ -1,4 +1,8 @@
 ﻿using System.Text.Json.Serialization;
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+// ReSharper disable ClassNeverInstantiated.Global
+// All properties must be read/write, and all classes concrete for serialization
 
 namespace LocalTrendsTooter;
 
