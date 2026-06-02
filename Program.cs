@@ -6,7 +6,8 @@ internal class Program
     private static async Task Main(string[] args)
     {
         var settings = Settings.Load();
-        var mastodonPoster = new MastodonPoster(new MaxCharactersCacheManager());
+        var httpClientFactory = new HttpClientFactory();
+        var mastodonPoster = new MastodonPoster(new MaxCharactersCacheManager(), httpClientFactory);
 
         try
         {
@@ -19,7 +20,7 @@ internal class Program
 
             var historyHours = settings.HistoryHours;
             var oldestDateUtc = DateTime.UtcNow.AddHours(historyHours * -1);
-            var mastodonGetter = new MastodonGetter();
+            var mastodonGetter = new MastodonGetter(httpClientFactory);
             var instancesToTrend = settings.InstancesToTrend;
             var allPosts = new List<MastodonPost>();
             foreach (var instance in instancesToTrend)

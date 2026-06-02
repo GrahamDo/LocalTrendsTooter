@@ -3,9 +3,9 @@ using System.Text.Json;
 
 namespace LocalTrendsTooter;
 
-internal class MastodonPoster(MaxCharactersCacheManager maxCharactersCacheManager)
+internal class MastodonPoster(MaxCharactersCacheManager maxCharactersCacheManager, HttpClientFactory clientFactory)
 {
-    private static readonly HttpClient Client = new();
+    private readonly HttpClient _client = clientFactory.GetClient();
 
     public async Task PostDirect(string instanceUrl, string instanceToken, string message) =>
         await Post(instanceUrl, instanceToken, message, true);
@@ -29,7 +29,7 @@ internal class MastodonPoster(MaxCharactersCacheManager maxCharactersCacheManage
             Headers = { Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", instanceToken) }
         };
 
-        using var response = await Client.SendAsync(request);
+        using var response = await _client.SendAsync(request);
             
         if (!response.IsSuccessStatusCode)
         {
@@ -62,7 +62,7 @@ internal class MastodonPoster(MaxCharactersCacheManager maxCharactersCacheManage
             Headers = { Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", instanceToken) }
         };
 
-        using var response = await Client.SendAsync(request);
+        using var response = await _client.SendAsync(request);
         response.EnsureSuccessStatusCode();
 
         var content = await response.Content.ReadAsStringAsync();

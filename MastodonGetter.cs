@@ -2,9 +2,9 @@
 
 namespace LocalTrendsTooter;
 
-internal class MastodonGetter
+internal class MastodonGetter(HttpClientFactory clientFactory)
 {
-    private static readonly HttpClient Client = new();
+    private readonly HttpClient _client = clientFactory.GetClient();
 
     public async Task<IEnumerable<MastodonPost>> GetPostsWithHashtags(string instanceUrl, DateTime oldestDateUtc)
     {
@@ -20,7 +20,7 @@ internal class MastodonGetter
             if (maxId != string.Empty)
                 url += $"&max_id={maxId}";
 
-            var response = await Client.GetStringAsync(url);
+            var response = await _client.GetStringAsync(url);
             var posts = JsonSerializer.Deserialize<List<MastodonPost>>(response) ??
                         throw new InvalidOperationException($"Failed to retrieve posts from {instanceUrl}");
 
