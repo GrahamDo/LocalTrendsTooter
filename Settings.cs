@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json;
 
 namespace LocalTrendsTooter;
 
@@ -23,7 +23,7 @@ internal class Settings
             return new Settings();
 
         var text = File.ReadAllText(SettingsFileName);
-        return JsonConvert.DeserializeObject<Settings>(text) ??
+        return JsonSerializer.Deserialize<Settings>(text) ??
                throw new ApplicationException($"Your '{SettingsFileName}' appears to be empty or corrupt.");
     }
 
@@ -88,7 +88,7 @@ internal class Settings
 
     public void Save()
     {
-        var serialised = JsonConvert.SerializeObject(this, Formatting.Indented);
+        var serialised = JsonSerializer.Serialize(this, new JsonSerializerOptions { WriteIndented = true });
         File.WriteAllText(SettingsFileName, serialised);
     }
 }

@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using System.Net;
+﻿using System.Net;
+using System.Text.Json;
 
 namespace LocalTrendsTooter;
 
@@ -20,7 +20,7 @@ internal class MastodonPoster(MaxCharactersCacheManager maxCharactersCacheManage
         if (direct)
             status.Visibility = "direct";
 
-        var json = JsonConvert.SerializeObject(status);
+        var json = JsonSerializer.Serialize(status);
         var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
         var request = new HttpRequestMessage(HttpMethod.Post, $"{instanceUrl}/api/v1/statuses")
@@ -69,7 +69,7 @@ internal class MastodonPoster(MaxCharactersCacheManager maxCharactersCacheManage
         if (string.IsNullOrEmpty(content))
             throw new ApplicationException("Empty response from getting instance info");
 
-        var results = JsonConvert.DeserializeObject<InstanceInfo>(content) ??
+        var results = JsonSerializer.Deserialize<InstanceInfo>(content) ??
                       throw new ApplicationException("Can't deserialise instance info");
 
         charLimit = results.Configuration.Statuses.MaxChars;

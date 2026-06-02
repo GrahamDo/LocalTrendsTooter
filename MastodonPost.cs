@@ -1,24 +1,29 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace LocalTrendsTooter;
 
 internal class MastodonPost
 {
-    [JsonProperty("created_at")]
+    [JsonPropertyName("created_at")]
     public DateTime CreatedAt { get; set; }
+    [JsonPropertyName("account")]
     public required Account Account { get; set; }
+    [JsonPropertyName("tags")]
     public List<MastodonTag> Tags { get; set; } = [];
+    [JsonPropertyName("id")]
     public string Id { get; set; } = string.Empty;
-    [JsonProperty("reblogs_count")]
+    [JsonPropertyName("reblogs_count")]
     public uint Boosts { get; set; }
-    [JsonProperty("favourites_count")]
+    [JsonPropertyName("favourites_count")]
     public uint Favourites { get; set; }
-    [JsonProperty("replies_count")]
+    [JsonPropertyName("replies_count")]
     public uint Replies { get; set; }
 }
 
 internal class Account
 {
+    [JsonPropertyName("url")]
     public required string Url { get; set; }
+    [JsonPropertyName("bot")]
     public bool Bot { get; set; }
 }

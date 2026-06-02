@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json;
 
 namespace LocalTrendsTooter;
 
@@ -21,8 +21,8 @@ internal class MastodonGetter
                 url += $"&max_id={maxId}";
 
             var response = await Client.GetStringAsync(url);
-            var posts = JsonConvert.DeserializeObject<List<MastodonPost>>(response) ??
-                throw new InvalidOperationException($"Failed to retrieve posts from {instanceUrl}");
+            var posts = JsonSerializer.Deserialize<List<MastodonPost>>(response) ??
+                        throw new InvalidOperationException($"Failed to retrieve posts from {instanceUrl}");
 
             posts.RemoveAll(post => post.CreatedAt < oldestDateUtc);
             done = posts.Count < pageSize;

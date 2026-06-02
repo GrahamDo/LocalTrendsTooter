@@ -1,11 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace LocalTrendsTooter;
 
 internal class MastodonStatus
 {
-    [JsonProperty("status")]
+    [JsonPropertyName("status")]
     public string Status { get; set; } = string.Empty;
-    [JsonProperty("visibility")]
+    [JsonPropertyName("visibility")]
     public string Visibility { get; set; } = "public";
 }
